@@ -1,15 +1,15 @@
 const canvasSketch = require('canvas-sketch');
 const math = require('canvas-sketch-util/math'); 
-const random = require('canvas-sketch-util/random')
+const random = require('canvas-sketch-util/random');
 
 const settings = {
   dimensions: [ 1080, 1080 ]
 };
 
 const sketch = ({ context, width, height }) => {
-  let x, y, w, h;
+  let x, y, w, h, fill, stroke;
   // let radius, angle, rx, ry;
-  const num = 20;
+  const num = 30;
   const degrees = -30;
 
   const rects = [];
@@ -20,22 +20,44 @@ const sketch = ({ context, width, height }) => {
     w = random.range(200, 600);
     h = random.range(40, 200);
 
-    rects.push({ x, y, w, h });
+    fill = `rgba(${random.range(0, 20)}, ${random.range(0, 200)}, ${random.range(0, 190)}, 1)`;
+    stroke = `rgba(${random.range(0, 20)}, ${random.range(0, 170)}, ${random.range(0, 120)}, 1)`;
+
+    blend = (random.value() > 0.5 ?  'overlay' : 'source-over');
+
+    rects.push({ x, y, w, h, fill, stroke, blend });
   }
 
   return ({ context, width, height }) => {
-    context.fillStyle = 'white';
+    context.fillStyle = `rgba(${random.range(0, 255)}, ${random.range(10, 255)}, ${random.range(0, 200)}, 1 )`;
     context.fillRect(0, 0, width, height);
 
     rects.forEach(rect => {
 
-    const { x, y, w, h } = rect;
+    const { x, y, w, h, fill, stroke, blend } = rect;
 
     context.save();
     context.translate(x, y);
-    context.strokeStyle = 'blue';
+    context.strokeStyle = stroke;
+    context.fillStyle = fill;
+    context.lineWidth = 10;
+
+    context.globalCompositeOperation = blend;
 
     drawSkewedRect({ context, w, h, degrees });
+    context.shadowColor = 'black';
+    context.shadowColor = `rgba(0, 0, 0, 0.5)`
+    context.shadowOffsetX = -10;
+    context.shadowOffsetY = 20;
+
+    context.fill();
+    context.shadowColor = null;
+    context.stroke();
+
+    context.globalCompositeOperation = 'source-over';
+    
+    context.lineWidth = 2;
+    context.strokeStyle = 'gray';
     context.stroke();
 
     context.restore();
