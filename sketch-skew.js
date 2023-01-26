@@ -32,12 +32,17 @@ const sketch = ({ context, width, height }) => {
     context.fillStyle = `rgba(${random.range(0, 255)}, ${random.range(10, 255)}, ${random.range(0, 200)}, 1 )`;
     context.fillRect(0, 0, width, height);
 
+   
+
     rects.forEach(rect => {
 
     const { x, y, w, h, fill, stroke, blend } = rect;
 
     context.save();
     context.translate(x, y);
+
+    
+
     context.strokeStyle = stroke;
     context.fillStyle = fill;
     context.lineWidth = 10;
@@ -63,6 +68,10 @@ const sketch = ({ context, width, height }) => {
     context.restore();
     });
 
+    context.save();
+    context.translate(width * 0.5, height * 0.5); 
+
+    context.restore();
   };
 };
 
