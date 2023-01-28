@@ -55,11 +55,12 @@ const sketch = ({ context, width, height }) => {
     context.shadowOffsetX = -10;
     context.shadowOffsetY = 20;
 
-    context.fill();
+    // context.fill();
     context.shadowColor = null;
     context.stroke();
 
     context.globalCompositeOperation = 'source-over';
+
     
     context.lineWidth = 2;
     context.strokeStyle = 'gray';
